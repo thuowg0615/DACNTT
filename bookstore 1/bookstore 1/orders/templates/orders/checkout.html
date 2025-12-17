@@ -1,0 +1,90 @@
+{% extends 'base.html' %} {% block title %}Checkout - Bookstore{% endblock %} {% block content %}
+<h1 class="text-4xl font-bold mb-8">💳 Checkout</h1>
+
+<form method="post" action="{% url 'process_payment' %}">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+            <div class="alert alert-info mb-6">
+                <span>⚠️ This is a demo checkout. No actual payment will be processed.</span>
+            </div>
+
+            <h2 class="text-2xl font-bold mb-4">Select Items to Purchase</h2>
+
+            {% for item in items %}
+            <div class="card bg-base-100 shadow-md mb-4">
+                <div class="card-body">
+                    <label class="flex gap-4 cursor-pointer">
+                        <input type="checkbox" name="selected_items" value="{{ item.id }}" class="checkbox checkbox-primary" checked>
+                        
+                        <div class="flex gap-4 flex-1">
+                            {% if item.book.image %}
+                            <img src="{{ item.book.image.url }}" alt="{{ item.book.name }}" class="w-20 h-20 object-cover rounded">
+                            {% else %}
+                            <div class="w-20 h-20 bg-base-200 flex items-center justify-center rounded">
+                                <span class="text-2xl">📖</span>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="flex-1">
+                                <h3 class="text-lg font-bold">{{ item.book.name }}</h3>
+                                <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
+                                <p class="text-sm mt-2">Quantity: {{ item.quantity }} × {{ item.book.price }} .VNĐ = <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="card bg-base-100 shadow-md">
+                <div class="card-body">
+                    <h2 class="text-xl font-bold mb-4">Payment Information (Demo)</h2>
+                    <div class="form-control mb-4">
+                        <label class="label">
+                            <span class="label-text">Card Number</span>
+                        </label>
+                        <input type="text" placeholder="1234 5678 9012 3456" class="input input-bordered" disabled>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Expiry Date</span>
+                            </label>
+                            <input type="text" placeholder="MM/YY" class="input input-bordered" disabled>
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">CVV</span>
+                            </label>
+                            <input type="text" placeholder="123" class="input input-bordered" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card bg-base-100 shadow-xl sticky top-4">
+                <div class="card-body">
+                    <h2 class="card-title">Order Summary</h2>
+                    <div class="divider"></div>
+                    <div class="flex justify-between mb-2">
+                        <span>Items:</span>
+                        <span>{{ items.count }}</span>
+                    </div>
+                    <div class="flex justify-between text-xl font-bold">
+                        <span>Total:</span>
+                        <span class="text-primary">{{ cart.total_price }} .VNĐ</span>
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button type="submit" class="btn btn-primary w-full">Complete Payment</button>
+                    </div>
+                    <a href="{% url 'cart' %}" class="btn btn-ghost w-full mt-2">Back to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

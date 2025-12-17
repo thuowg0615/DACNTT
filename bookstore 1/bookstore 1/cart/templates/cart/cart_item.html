@@ -1,0 +1,34 @@
+<div class="card bg-base-100 shadow-md mb-4" id="cart-item-{{ item.id }}">
+    <div class="card-body">
+        <div class="flex gap-4">
+            {% if item.book.image %}
+            <img src="{{ item.book.image.url }}" alt="{{ item.book.name }}" class="w-24 h-24 object-cover rounded"> {% else %}
+            <div class="w-24 h-24 bg-base-200 flex items-center justify-center rounded">
+                <span class="text-3xl">📖</span>
+            </div>
+            {% endif %}
+
+            <div class="flex-1">
+                <h3 class="text-xl font-bold">{{ item.book.name }}</h3>
+                <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
+                <p class="text-lg font-bold text-primary mt-2">{{ item.book.price }}VNĐ</p>
+
+                <div class="flex gap-4 items-center mt-4">
+                    <form method="post" action="{% url 'update_cart_item' item.pk %}" hx-post="{% url 'update_cart_item' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML" class="flex gap-2 items-center">
+                        {% csrf_token %}
+                        <label class="text-sm">Quantity:</label>
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="input input-bordered input-sm w-20">
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+
+                    <form method="post" action="{% url 'remove_from_cart' item.pk %}" hx-post="{% url 'remove_from_cart' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-error btn-outline">Remove</button>
+                    </form>
+                </div>
+
+                <p class="text-sm mt-2">Subtotal: <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Bookstore{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.errors %}
+                <div class="alert alert-error mb-4">
+                    <span>Invalid username or password</span>
+                </div>
+                {% endif %}
+                
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Username</span>
+                    </label>
+                    <input type="text" name="username" placeholder="Username" class="input input-bordered w-full" required>
+                </div>
+                
+                <div class="form-control mb-4">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="password" placeholder="Password" class="input input-bordered w-full" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full">Login</button>
+            </form>
+            <div class="divider">OR</div>
+            <a href="{% url 'register' %}" class="btn btn-ghost w-full">Don't have an account? Register</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %} {% block title %}Payment Successful - Bookstore{% endblock %} {% block content %}
+<div class="flex flex-col items-center justify-center py-12">
+    <div class="card bg-base-100 shadow-xl max-w-lg w-full">
+        <div class="card-body text-center">
+            <div class="text-6xl mb-4">✅</div>
+            <h1 class="text-3xl font-bold text-success mb-2">Payment Successful!</h1>
+            <p class="text-lg text-gray-600 mb-6">Thank you for your purchase. Your order has been placed successfully.</p>
+
+            <div class="divider"></div>
+
+            <div class="text-left mb-6">
+                <h2 class="text-xl font-bold mb-4">Order Details</h2>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Order #:</span>
+                    <span class="font-bold">{{ order.id }}</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Date:</span>
+                    <span>{{ order.created_at|date:"M d, Y H:i" }}</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Status:</span>
+                    <span class="badge badge-success">{{ order.get_status_display }}</span>
+                </div>
+                <div class="flex justify-between mb-4">
+                    <span class="text-gray-600">Total:</span>
+                    <span class="text-xl font-bold text-primary">{{ order.total_price }} .VNĐ</span>
+                </div>
+
+                <h3 class="font-bold mb-2">Items:</h3>
+                {% for item in order.items.all %}
+                <div class="flex justify-between text-sm mb-1">
+                    <span>{{ item.book.name }} (x{{ item.quantity }})</span>
+                    <span>{{ item.subtotal }} .VNĐ</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="card-actions flex-col gap-2">
+                <a href="{% url 'download_invoice' order.id %}" class="btn btn-primary w-full">
+                    📄 Download Invoice
+                </a>
+                <a href="{% url 'order_history' %}" class="btn btn-outline w-full">
+                    View Order History
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-ghost w-full">
+                    Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
