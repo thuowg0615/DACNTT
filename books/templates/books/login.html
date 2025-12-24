@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Login - Bookstore{% endblock %}
+{% block title %}Đăng nhập - Bookstore{% endblock %}
 
 {% block content %}
 <div class="max-w-md mx-auto">
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
-            <h2 class="card-title text-2xl mb-4">Login</h2>
+            <h2 class="card-title text-2xl mb-4">Đăng nhập</h2>
             <form method="post">
                 {% csrf_token %}
                 {% if form.errors %}
                 <div class="alert alert-error mb-4">
-                    <span>Invalid username or password</span>
+                    <span>Tên người dùng hoặc mật khẩu không hợp lệ</span>
                 </div>
                 {% endif %}
                 
@@ -29,10 +29,10 @@
                     <input type="password" name="password" placeholder="Password" class="input input-bordered w-full" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary w-full">Login</button>
+                <button type="submit" class="btn btn-primary w-full">Đăng nhập</button>
             </form>
             <div class="divider">OR</div>
-            <a href="{% url 'register' %}" class="btn btn-ghost w-full">Don't have an account? Register</a>
+            <a href="{% url 'register' %}" class="btn btn-ghost w-full">Bạn chưa có tài khoản? Đăng kí</a>
         </div>
     </div>
 </div>

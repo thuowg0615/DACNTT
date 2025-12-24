@@ -9,7 +9,7 @@ from orders import views as order_views
 
 admin.site.site_header = "ADC Book Admin"
 admin.site.site_title = "ADC Book Admin"
-admin.site.index_title = "Welcome to ADC Book Admin"
+admin.site.index_title = "Chào mừng đến với ADC Book Admin"
 
 urlpatterns = [
     path('admin/', admin.site.urls),

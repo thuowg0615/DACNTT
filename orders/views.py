@@ -35,12 +35,12 @@ def process_payment(request):
             items = cart.items.all()
             
             if not items:
-                messages.error(request, 'Your cart is empty!')
+                messages.error(request, 'Giỏ hàng của bạn trống!')
                 return redirect('cart')
             
             selected_items = request.POST.getlist('selected_items')
             if not selected_items:
-                messages.error(request, 'Please select at least one item to purchase!')
+                messages.error(request, 'Vui lòng chọn ít nhất một mặt hàng để mua!')
                 return redirect('checkout')
             
             # Use OrderBuilder to create the order
@@ -62,11 +62,11 @@ def process_payment(request):
                 if str(item.id) in selected_items:
                     item.delete()
             
-            messages.success(request, 'Payment successful! Your order has been placed.')
+            messages.success(request, 'Giao dịch thanh toán thành công! Đơn hàng của bạn đã được đặt.')
             return redirect('payment_success', order_id=order.id)
             
         except Cart.DoesNotExist:
-            messages.error(request, 'Your cart is empty!')
+            messages.error(request, 'Giỏ hàng của bạn trống!')
             return redirect('cart')
 
 

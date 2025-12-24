@@ -23,7 +23,7 @@
                             <!-- Thông tin sách: truy cập khóa ngoại -->
                             <h3 class="text-xl font-bold">{{ item.book.name }}</h3>
                             <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
-                            <p class="text-lg font-bold text-primary mt-2">{{ item.book.price }} .VNĐ</p>
+                            <p class="text-lg font-bold text-primary mt-2">{{ item.book.price }} VNĐ</p>
 
                             <div class="flex gap-4 items-center mt-4">
                                 <!-- from cập nhật số lượng(HTMX) 
@@ -33,19 +33,19 @@
                                 mục đích không reload-->
                                 <form method="post" action="{% url 'update_cart_item' item.pk %}" hx-post="{% url 'update_cart_item' item.pk %}" hx-target="#cart-content" hx-swap="outerHTML" class="flex gap-2 items-center">
                                     {% csrf_token %} <!--Bắt buộc cho POST (backend bảo mật)-->
-                                    <label class="text-sm">Quantity:</label>
+                                    <label class="text-sm">Số lượng:</label>
                                     <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="input input-bordered input-sm w-20"> <!--Người dùng chỉnh số lượng-->
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
                                 </form>
                                 <!-- from xóa sản phẩm: Xóa item; Backend trả về cart_content.html mới -->
                                 <form method="post" action="{% url 'remove_from_cart' item.pk %}" hx-post="{% url 'remove_from_cart' item.pk %}" hx-target="#cart-content" hx-swap="outerHTML">
                                     {% csrf_token %} <!--Bắt buộc cho POST (backend bảo mật)-->
-                                    <button type="submit" class="btn btn-sm btn-error btn-outline">Remove</button>
+                                    <button type="submit" class="btn btn-sm btn-error btn-outline">Xóa</button>
                                 </form>
                             </div>
 
                             <!-- subtotal:Được tính ở backend; Template chỉ hiển thị -->
-                            <p class="text-sm mt-2">Subtotal: <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
+                            <p class="text-sm mt-2">Tổng: <span class="font-bold">{{ item.subtotal }} VNĐ</span></p>
                         </div>
                     </div>
                 </div>
@@ -57,20 +57,20 @@
             <div class="card bg-base-100 shadow-xl sticky top-4">
                 <div class="card-body">
                     <!-- Cột bên phải -->
-                    <h2 class="card-title">Order Summary</h2>
+                    <h2 class="card-title">Tổng đơn hàng</h2>
                     <div class="divider"></div>
                     <div class="flex justify-between mb-2">
-                        <span>Items:</span>
+                        <span>Tổng số sản phẩm:</span>
                         <span>{{ items.count }}</span> <!--Tổng số item-->
                     </div>
                     <div class="flex justify-between text-xl font-bold">
-                        <span>Total:</span>
-                        <span class="text-primary">{{ cart.total_price }} .VNĐ</span> <!--Tổng tiền:Tính ở backend; Template không xử lý logic phức tạp-->
+                        <span>Tổng tiền:</span>
+                        <span class="text-primary">{{ cart.total_price }} VNĐ</span> <!--Tổng tiền:Tính ở backend; Template không xử lý logic phức tạp-->
                     </div>
                     <div class="card-actions justify-end mt-4">
-                        <a href="{% url 'checkout' %}" class="btn btn-primary w-full">Proceed to Checkout</a> <!--Điều hướng sang trang thanh toán-->
+                        <a href="{% url 'checkout' %}" class="btn btn-primary w-full">Tiến hành thanh toán</a> <!--Điều hướng sang trang thanh toán-->
                     </div>
-                    <a href="{% url 'home' %}" class="btn btn-ghost w-full mt-2">Continue Shopping</a> 
+                    <a href="{% url 'home' %}" class="btn btn-ghost w-full mt-2">Tiếp tục mua sắm</a> 
                 </div>
             </div>
         </div>
@@ -78,9 +78,9 @@
     {% else %} <!--Nếu giỏ hàng trống-->
     <div class="text-center py-12">
         <span class="text-9xl">🛒</span>
-        <h2 class="text-2xl font-bold mt-4">Your cart is empty</h2>
-        <p class="text-gray-500 mt-2">Add some books to get started!</p>
-        <a href="{% url 'home' %}" class="btn btn-primary mt-6">Browse Books</a> <!--Quay về trang chủ-->
+        <h2 class="text-2xl font-bold mt-4">Giỏ hàng của bạn trống</h2>
+        <p class="text-gray-500 mt-2">Hãy thêm một vài cuốn sách để bắt đầu!</p>
+        <a href="{% url 'home' %}" class="btn btn-primary mt-6">Tìm kiếm sách</a> <!--Quay về trang chủ-->
     </div>
     {% endif %} <!--Kết thúc điều kiện-->
 </div>

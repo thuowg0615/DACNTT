@@ -1,6 +1,8 @@
 
-{% extends 'base.html' %} {% block title %}Order History - Bookstore{% endblock %} {% block content %}
-<h1 class="text-4xl font-bold mb-8">📦 Order History</h1>
+{% extends 'base.html' %} <!--Kế thừa-->
+{% block title %}Lịch sử mua hàng - Bookstore{% endblock %} <!--Tab trình duyệt-->
+{% block content %} <!--Nội dung chính-->
+<h1 class="text-4xl font-bold mb-8">📦 Lịch sử mua hàng</h1>
 
 {% if orders %}
 <div class="space-y-6">
@@ -9,7 +11,7 @@
         <div class="card-body">
             <div class="flex justify-between items-start mb-4">
                 <div>
-                    <h2 class="card-title">Order #{{ order.id }}</h2>
+                    <h2 class="card-title">Đơn hàng #{{ order.id }}</h2>
                     <p class="text-sm text-gray-500">{{ order.created_at|date:"F d, Y at h:i A" }}</p>
                 </div>
                 <div class="badge badge-success">{{ order.get_status_display }}</div>
@@ -29,10 +31,10 @@
                         {% endif %}
                         <div>
                             <p class="font-bold">{{ item.book.name }}</p>
-                            <p class="text-sm text-gray-500">Quantity: {{ item.quantity }}</p>
+                            <p class="text-sm text-gray-500">Số lượng: {{ item.quantity }}</p>
                         </div>
                     </div>
-                    <p class="font-bold grow-0">{{ item.subtotal }} .VNĐ</p>
+                    <p class="font-bold grow-0">{{ item.subtotal }} VNĐ</p>
                 </div>
                 {% endfor %}
             </div>
@@ -40,8 +42,8 @@
             <div class="divider"></div>
 
             <div class="flex justify-between items-center">
-                <span class="text-xl font-bold">Total:</span>
-                <span class="text-2xl font-bold text-primary">{{ order.total_price }} .VNĐ</span>
+                <span class="text-xl font-bold">Tổng:</span>
+                <span class="text-2xl font-bold text-primary">{{ order.total_price }} VNĐ</span>
             </div>
         </div>
     </div>
@@ -50,8 +52,8 @@
 {% else %}
 <div class="text-center py-12">
     <span class="text-9xl">📦</span>
-    <h2 class="text-2xl font-bold mt-4">No orders yet</h2>
-    <p class="text-gray-500 mt-2">Start shopping to see your order history!</p>
-    <a href="{% url 'home' %}" class="btn btn-primary mt-6">Browse Books</a>
+    <h2 class="text-2xl font-bold mt-4">Chưa có đơn hàng nào</h2>
+    <p class="text-gray-500 mt-2">Bắt đầu mua sắm để xem lịch sử đơn hàng của bạn!</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-6">Tìm kiếm sách</a>
 </div>
 {% endif %} {% endblock %}

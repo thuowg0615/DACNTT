@@ -24,19 +24,19 @@
                     <!-- form cập nhật số lượng -->
                     <form method="post" action="{% url 'update_cart_item' item.pk %}" hx-post="{% url 'update_cart_item' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML" class="flex gap-2 items-center">
                         {% csrf_token %} <!--Django bảo mật POST request-->
-                        <label class="text-sm">Quantity:</label>
+                        <label class="text-sm">Số lượng:</label>
                         <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="input input-bordered input-sm w-20"> <!--Số lượng hiện tại-->
-                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Cập nhật</button>
                     </form>
 
                     <!-- form xóa : Backend trả về HTML rỗng, HTMX thay thế item bằng rỗng → biến mất(không reload trang) -->
                     <form method="post" action="{% url 'remove_from_cart' item.pk %}" hx-post="{% url 'remove_from_cart' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML">
                         {% csrf_token %} <!--Django bảo mật POST request-->
-                        <button type="submit" class="btn btn-sm btn-error btn-outline">Remove</button>
+                        <button type="submit" class="btn btn-sm btn-error btn-outline">Xóa</button>
                     </form>
                 </div>
 
-                <p class="text-sm mt-2">Subtotal: <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p> <!--Thành tiền-->
+                <p class="text-sm mt-2">Tổng: <span class="font-bold">{{ item.subtotal }} VNĐ</span></p> <!--Thành tiền-->
             </div>
         </div>
     </div>

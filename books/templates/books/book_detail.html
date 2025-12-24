@@ -1,6 +1,8 @@
-{% extends 'base.html' %} {% block title %}{{ book.name }} - ADCbook{% endblock %} {% block content %}
+{% extends 'base.html' %} 
+{% block title %}{{ book.name }} - ADCbook{% endblock %} 
+{% block content %}
 <div class="mb-4">
-    <a href="{% url 'home' %}" class="btn btn-ghost btn-sm">← Back to Home</a>
+    <a href="{% url 'home' %}" class="btn btn-ghost btn-sm">← Quay lại trang chủ</a>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -36,10 +38,10 @@
         <form method="post" action="{% url 'add_to_cart' book.pk %}" class="flex gap-4 mb-6">
             {% csrf_token %}
             <input type="number" name="quantity" value="1" min="1" class="input input-bordered w-24">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
+            <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
         </form>
         {% else %}
-        <p class="text-gray-500 mb-6">Please <a href="{% url 'login' %}" class="link">login</a> to add items to cart.</p>
+        <p class="text-gray-500 mb-6">Làm ơn <a href="{% url 'login' %}" class="link">đăng nhập</a> để thêm sản phẩm vào giỏ hàng</p>
         {% endif %}
     </div>
 </div>
@@ -48,29 +50,29 @@
 <div class="divider my-8"></div>
 
 <div class="mb-8">
-    <h2 class="text-2xl font-bold mb-4">Your Rating</h2>
+    <h2 class="text-2xl font-bold mb-4">Đánh giá của bạn</h2>
     <form method="post" action="{% url 'add_rating' book.pk %}" class="flex gap-4 items-center">
         {% csrf_token %}
         <div class="rating rating-lg">
             {% for i in "12345" %}
             <input type="radio" name="rating" value="{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" {% if user_rating and user_rating.rating == forloop.counter %}checked{% endif %}> {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary">Submit Rating</button>
+        <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
     </form>
 </div>
 
 <div class="mb-8">
-    <h2 class="text-2xl font-bold mb-4">Add a Comment</h2>
+    <h2 class="text-2xl font-bold mb-4">Thêm bình luận</h2>
     <form method="post" action="{% url 'add_comment' book.pk %}">
         {% csrf_token %}
         <textarea name="text" class="textarea textarea-bordered w-full" placeholder="Write your comment..." rows="4" required></textarea>
-        <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+        <button type="submit" class="btn btn-primary mt-2">Đăng bình luận</button>
     </form>
 </div>
 {% endif %}
 
 <div>
-    <h2 class="text-2xl font-bold mb-4">Comments ({{ comments.count }})</h2>
+    <h2 class="text-2xl font-bold mb-4">Bình luận ({{ comments.count }})</h2>
     {% for comment in comments %}
     <div class="card bg-base-100 shadow-md mb-4">
         <div class="card-body">
@@ -80,13 +82,13 @@
                     <p class="text-sm text-gray-500">{{ comment.created_at|date:"F d, Y" }}</p>
                 </div>
                 {% if comment.user == user %}
-                <span class="badge badge-primary">Your comment</span> {% endif %}
+                <span class="badge badge-primary">Bình luận của bạn</span> {% endif %}
             </div>
             <p class="mt-2 break-all">{{ comment.text }}</p>
         </div>
     </div>
     {% empty %}
-    <p class="text-gray-500">No comments yet. Be the first to comment!</p>
+    <p class="text-gray-500">Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
     {% endfor %}
 </div>
 {% endblock %}

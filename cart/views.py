@@ -34,7 +34,7 @@ def add_to_cart(request, pk):
             cart_item.quantity += quantity
             cart_item.save()
         
-        messages.success(request, f'{book.name} added to cart!')
+        messages.success(request, f'{book.name} được thêm vào giỏ hàng!')
         
         if request.htmx:
             return render(request, 'partials/toast.html')
@@ -51,7 +51,7 @@ def update_cart_item(request, pk):
         if quantity > 0:
             cart_item.quantity = quantity
             cart_item.save()
-            messages.success(request, 'Cart updated!')
+            messages.success(request, 'Giỏ hàng đã được cập nhật!')
         
         if request.htmx:
             context = {
@@ -72,7 +72,7 @@ def remove_from_cart(request, pk):
         # Store cart reference before deletion if needed, but we can access user.cart
         cart = request.user.cart
         cart_item.delete()
-        messages.success(request, 'Item removed from cart!')
+        messages.success(request, 'Sản phẩm đã được xóa khỏi giỏ hàng!')
         
         if request.htmx:
             context = {

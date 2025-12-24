@@ -1,21 +1,23 @@
-{% extends 'base.html' %} {% block title %}Home - Bookstore{% endblock %} {% block content %}
-<h1 class="text-4xl font-bold mb-8">📚 ADCbook</h1>
+{% extends 'base.html' %} 
+{% block title %}Trang chủ - ADCBook{% endblock %} 
+{% block content %}
+<!-- <h1 class="text-4xl font-bold mb-8">📚 ADCbook</h1> -->
 
 <div class="mb-6">
     <form method="get" class="flex flex-wrap gap-4">
         <div class="form-control w-full max-w-xs">
             <label class="label">
-                <span class="label-text">Search</span>
+                <span class="label-text">Tìm kiếm</span>
             </label>
-            <input type="text" name="search" placeholder="Search books..." class="input input-bordered" value="{{ search_query|default:'' }}">
+            <input type="text" name="search" placeholder="Tìm kiếm sách..." class="input input-bordered" value="{{ search_query|default:'' }}">
         </div>
 
         <div class="form-control w-full max-w-xs">
             <label class="label">
-                <span class="label-text">Grade</span>
+                <span class="label-text">Khối</span>
             </label>
             <select name="grade" class="select select-bordered">
-                <option value="">All Grades</option>
+                <option value="">Tất cả khối</option>
                 {% for grade in grades %}
                 <option value="{{ grade.id }}" {% if selected_grade == grade.id|stringformat:"s" %}selected{% endif %}>{{ grade.name }}</option>
                 {% endfor %}
@@ -24,10 +26,10 @@
 
         <div class="form-control w-full max-w-xs">
             <label class="label">
-                <span class="label-text">Subject</span>
+                <span class="label-text">Môn</span>
             </label>
             <select name="subject" class="select select-bordered">
-                <option value="">All Subjects</option>
+                <option value="">Tất cả môn</option>
                 {% for subject in subjects %}
                 <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>{{ subject.name }}</option>
                 {% endfor %}
@@ -35,12 +37,12 @@
         </div>
 
         <div class="form-control self-end">
-            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="submit" class="btn btn-primary">Lọc</button>
         </div>
 
         {% if search_query or selected_grade or selected_subject %}
         <div class="form-control self-end">
-            <a href="{% url 'home' %}" class="btn btn-ghost">Clear</a>
+            <a href="{% url 'home' %}" class="btn btn-ghost">Xóa</a>
         </div>
         {% endif %}
     </form>
@@ -72,7 +74,7 @@
                     <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-ghost">View</a> {% if user.is_authenticated %}
                     <form method="post" action="{% url 'add_to_cart' book.pk %}" hx-post="{% url 'add_to_cart' book.pk %}" hx-swap="none">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-primary">Add to Cart</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Thêm vào giỏ hàng</button>
                     </form>
                     {% endif %}
                 </div>
@@ -81,7 +83,7 @@
     </div>
     {% empty %}
     <div class="col-span-full text-center py-12">
-        <p class="text-xl text-gray-500">No books found.</p>
+        <p class="text-xl text-gray-500">Không tìm thấy sách nào.</p>
     </div>
     {% endfor %}
 </div>

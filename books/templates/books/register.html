@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Register - Bookstore{% endblock %}
+{% block title %}Đăng kí - Bookstore{% endblock %}
 
 {% block content %}
 <div class="max-w-md mx-auto">
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
-            <h2 class="card-title text-2xl mb-4">Register</h2>
+            <h2 class="card-title text-2xl mb-4">Đăng kí</h2>
             <form method="post">
                 {% csrf_token %}
                 {% if form.errors %}
@@ -49,10 +49,10 @@
                     <input type="password" name="password2" placeholder="Confirm Password" class="input input-bordered w-full" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary w-full">Register</button>
+                <button type="submit" class="btn btn-primary w-full">Đăng kí</button>
             </form>
             <div class="divider">OR</div>
-            <a href="{% url 'login' %}" class="btn btn-ghost w-full">Already have an account? Login</a>
+            <a href="{% url 'login' %}" class="btn btn-ghost w-full"> Bạn đã có tài khoản? Đăng nhập</a>
         </div>
     </div>
 </div>

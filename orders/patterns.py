@@ -39,9 +39,9 @@ class OrderBuilder:
 
     def build(self):
         if not self._user:
-            raise ValueError("User must be set before building an order.")
+            raise ValueError("Người dùng phải được thiết lập trước khi tạo đơn hàng.")
         if not self._items:
-            raise ValueError("At least one item must be added before building an order.")
+            raise ValueError("Ít nhất một mặt hàng phải được thêm vào trước khi tạo đơn hàng.")
 
         total = self.calculate_total()
 
@@ -114,7 +114,7 @@ class InvoiceGenerator:
             f"Status: {order.get_status_display()}",
             "",
             "=" * 50,
-            "          Thank you for your purchase!",
+            "          Cảm ơn bạn đã mua hàng!",
             "=" * 50,
         ])
 

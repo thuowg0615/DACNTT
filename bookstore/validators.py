@@ -16,36 +16,36 @@ class ComplexPasswordValidator:
     def validate(self, password, user=None):
         if len(password) < 8:
             raise ValidationError(
-                _("Password must be at least 8 characters long."),
+                _("Mật khẩu phải có ít nhất 8 ký tự."),
                 code='password_too_short',
             )
 
         if not re.search(r'[A-Z]', password):
             raise ValidationError(
-                _("Password must contain at least one uppercase letter."),
+                _("Mật khẩu phải chứa ít nhất một chữ cái viết hoa."),
                 code='password_no_upper',
             )
 
         if not re.search(r'[a-z]', password):
             raise ValidationError(
-                _("Password must contain at least one lowercase letter."),
+                _("Mật khẩu phải chứa ít nhất một chữ cái thường."),
                 code='password_no_lower',
             )
 
         if not re.search(r'\d', password):
             raise ValidationError(
-                _("Password must contain at least one digit."),
+                _("Mật khẩu phải chứa ít nhất một chữ số."),
                 code='password_no_digit',
             )
 
         if not re.search(r'[!@#$%^&*(),.?":{}|<>]', password):
             raise ValidationError(
-                _("Password must contain at least one special character (!@#$%^&*(),.?\":{}|<>)."),
+                _("Mật khẩu phải chứa ít nhất một ký tự đặc biệt (!@#$%^&*(),.?\":{}|<>)."),
                 code='password_no_special',
             )
 
     def get_help_text(self):
         return _(
-            "Your password must be at least 8 characters long and contain at least "
-            "one uppercase letter, one lowercase letter, one digit, and one special character."
+            "Mật khẩu của bạn phải có ít nhất 8 ký tự và chứa ít nhất"
+            "một chữ cái viết hoa, một chữ cái viết thường, một chữ số và một ký tự đặc biệt."
         )
