@@ -1,21 +1,28 @@
-{% extends 'base.html' %} {% block title %}Checkout - Bookstore{% endblock %} {% block content %}
-<h1 class="text-4xl font-bold mb-8">💳 Checkout</h1>
 
+{% extends 'base.html' %} <!--kế thừa-->
+{% block title %}Checkout - Bookstore{% endblock %} <!--ghi đè-->
+{% block content %} <!--Bắt đầu nội dung trang-->
+<h1 class="text-4xl font-bold mb-8">💳 Checkout</h1> <!--Tiêu đề-->
+
+<!-- form thanh toán -->
 <form method="post" action="{% url 'process_payment' %}">
-    {% csrf_token %}
+    {% csrf_token %} <!--Django bảo mật POST request-->
 
+    <!-- chia giao diện(2 cột) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
+            <!-- Thông báo -->
             <div class="alert alert-info mb-6">
-                <span>⚠️ This is a demo checkout. No actual payment will be processed.</span>
+                <span>Thanh toán thành công</span>
             </div>
 
-            <h2 class="text-2xl font-bold mb-4">Select Items to Purchase</h2>
+            <h2 class="text-2xl font-bold mb-4">Chọn mặt hàng để mua</h2>
 
-            {% for item in items %}
+            {% for item in items %} <!--items được truyền từ backend-->
             <div class="card bg-base-100 shadow-md mb-4">
                 <div class="card-body">
                     <label class="flex gap-4 cursor-pointer">
+                        <!-- chọn sản phẩm -->
                         <input type="checkbox" name="selected_items" value="{{ item.id }}" class="checkbox checkbox-primary" checked>
                         
                         <div class="flex gap-4 flex-1">
@@ -28,8 +35,10 @@
                             {% endif %}
                             
                             <div class="flex-1">
+                                <!-- thông tin sách -->
                                 <h3 class="text-lg font-bold">{{ item.book.name }}</h3>
                                 <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
+                                <!-- Tính tiền -->
                                 <p class="text-sm mt-2">Quantity: {{ item.quantity }} × {{ item.book.price }} .VNĐ = <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
                             </div>
                         </div>
@@ -38,19 +47,20 @@
             </div>
             {% endfor %}
 
+                <!-- thanh toán -->
             <div class="card bg-base-100 shadow-md">
                 <div class="card-body">
-                    <h2 class="text-xl font-bold mb-4">Payment Information (Demo)</h2>
+                    <h2 class="text-xl font-bold mb-4">Thông tin thanh toán</h2>
                     <div class="form-control mb-4">
                         <label class="label">
-                            <span class="label-text">Card Number</span>
+                            <span class="label-text">số tài khoản </span>
                         </label>
                         <input type="text" placeholder="1234 5678 9012 3456" class="input input-bordered" disabled>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label">
-                                <span class="label-text">Expiry Date</span>
+                                <span class="label-text">Ngày hết hạn</span>
                             </label>
                             <input type="text" placeholder="MM/YY" class="input input-bordered" disabled>
                         </div>
@@ -68,20 +78,21 @@
         <div>
             <div class="card bg-base-100 shadow-xl sticky top-4">
                 <div class="card-body">
-                    <h2 class="card-title">Order Summary</h2>
+                    <h2 class="card-title">Tóm tắt đơn hàng</h2>
                     <div class="divider"></div>
                     <div class="flex justify-between mb-2">
                         <span>Items:</span>
                         <span>{{ items.count }}</span>
                     </div>
                     <div class="flex justify-between text-xl font-bold">
+                        <!--tổng tiền-->
                         <span>Total:</span>
                         <span class="text-primary">{{ cart.total_price }} .VNĐ</span>
                     </div>
                     <div class="card-actions justify-end mt-4">
-                        <button type="submit" class="btn btn-primary w-full">Complete Payment</button>
+                        <button type="submit" class="btn btn-primary w-full">hoàn tất thanh toán</button>
                     </div>
-                    <a href="{% url 'cart' %}" class="btn btn-ghost w-full mt-2">Back to Cart</a>
+                    <a href="{% url 'cart' %}" class="btn btn-ghost w-full mt-2">Quay lại giỏ hàng</a>
                 </div>
             </div>
         </div>

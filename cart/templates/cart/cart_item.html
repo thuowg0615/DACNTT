@@ -1,6 +1,12 @@
+<!-- Định danh item 
+    card bg-base-100 shadow-md mb-4: UI (Tailwind + DaisyUI)
+	id="cart-item-{{ item.id }}": Mỗi item có ID duy nhất, Dùng cho hx-target
+-->
 <div class="card bg-base-100 shadow-md mb-4" id="cart-item-{{ item.id }}">
+    <!-- Bố cục ngang: Trái: ảnh; Phải: thông tin + form -->
     <div class="card-body">
         <div class="flex gap-4">
+            <!-- Hiển thị ảnh sách -->
             {% if item.book.image %}
             <img src="{{ item.book.image.url }}" alt="{{ item.book.name }}" class="w-24 h-24 object-cover rounded"> {% else %}
             <div class="w-24 h-24 bg-base-200 flex items-center justify-center rounded">
@@ -8,26 +14,29 @@
             </div>
             {% endif %}
 
+            <!-- Thông tin sách -->
             <div class="flex-1">
-                <h3 class="text-xl font-bold">{{ item.book.name }}</h3>
-                <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
-                <p class="text-lg font-bold text-primary mt-2">{{ item.book.price }}VNĐ</p>
+                <h3 class="text-xl font-bold">{{ item.book.name }}</h3> <!--Tên sách-->
+                <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p> <!--quan hệ khóa ngoại-->
+                <p class="text-lg font-bold text-primary mt-2">{{ item.book.price }}VNĐ</p> <!--Giá gốc của sách-->
 
                 <div class="flex gap-4 items-center mt-4">
+                    <!-- form cập nhật số lượng -->
                     <form method="post" action="{% url 'update_cart_item' item.pk %}" hx-post="{% url 'update_cart_item' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML" class="flex gap-2 items-center">
-                        {% csrf_token %}
+                        {% csrf_token %} <!--Django bảo mật POST request-->
                         <label class="text-sm">Quantity:</label>
-                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="input input-bordered input-sm w-20">
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="input input-bordered input-sm w-20"> <!--Số lượng hiện tại-->
                         <button type="submit" class="btn btn-sm btn-primary">Update</button>
                     </form>
 
+                    <!-- form xóa : Backend trả về HTML rỗng, HTMX thay thế item bằng rỗng → biến mất(không reload trang) -->
                     <form method="post" action="{% url 'remove_from_cart' item.pk %}" hx-post="{% url 'remove_from_cart' item.pk %}" hx-target="#cart-item-{{ item.id }}" hx-swap="outerHTML">
-                        {% csrf_token %}
+                        {% csrf_token %} <!--Django bảo mật POST request-->
                         <button type="submit" class="btn btn-sm btn-error btn-outline">Remove</button>
                     </form>
                 </div>
 
-                <p class="text-sm mt-2">Subtotal: <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
+                <p class="text-sm mt-2">Subtotal: <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p> <!--Thành tiền-->
             </div>
         </div>
     </div>
