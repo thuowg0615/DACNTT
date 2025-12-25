@@ -103,12 +103,12 @@ class InvoiceGenerator:
 
         for item in order.items.all():
             lines.append(f"  {item.book.name}")
-            lines.append(f"    Quantity: {item.quantity} x {item.price} .VNĐ = {item.subtotal()} .VNĐ")
+            lines.append(f"    Quantity: {item.quantity} x {item.price} VNĐ = {item.subtotal()} VNĐ")
             lines.append("")
 
         lines.extend([
             "-" * 50,
-            f"TOTAL: {order.total_price} .VNĐ",
+            f"TOTAL: {order.total_price} VNĐ",
             "-" * 50,
             "",
             f"Status: {order.get_status_display()}",

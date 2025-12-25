@@ -2,10 +2,10 @@
 @plugin "daisyui";
 
 /**
-  * A catch-all path to Django template files, JavaScript, and Python files
-  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+  * Đường dẫn chung đến các tệp mẫu Django, tệp JavaScript và tệp Python
+  * chứa các lớp CSS của Tailwind và sẽ được Tailwind quét để tạo tệp CSS cuối cùng.
   *
-  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
-  * the scope of this path.
+  * Nếu tệp CSS cuối cùng của bạn không được cập nhật sau khi thay đổi mã, bạn có thể muốn mở rộng hoặc thu hẹp
+  * phạm vi của đường dẫn này.
   */
 @source "../../../**/*.{html,py,js}";
