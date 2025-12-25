@@ -18,34 +18,34 @@ class Migration(migrations.Migration):
     # tạo database
     operations = [
         migrations.CreateModel(
-            name='Book', #tạo bảng Book(sách)
-            fields=[ # tạo các cột trong bảng
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), #ID tự tăng, khóa chính
-                ('name', models.CharField(max_length=200)), #tối đa 200 kí tự
+            name='Book', #Tạo bảng
+            fields=[ 
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')), 
+                ('name', models.CharField(max_length=200)), 
                 ('price', models.DecimalField(decimal_places=2, max_digits=10, 
-                                              validators=[django.core.validators.MinValueValidator(0)])), # giá tiền không âm, lưu chính xác giá tiền
-                ('image', models.ImageField(blank=True, null=True, upload_to='books/')), #Lưu trong thư mục media/books/; có thể để trống
-                ('description', models.TextField(blank=True)),  #Mô tả sách, cho phép rỗng
-                ('created_at', models.DateTimeField(auto_now_add=True)), #thời gian tạo sách tự động
-                ('updated_at', models.DateTimeField(auto_now=True)), #thời gian cập nhật cuối
+                                              validators=[django.core.validators.MinValueValidator(0)])), 
+                ('image', models.ImageField(blank=True, null=True, upload_to='books/')), 
+                ('description', models.TextField(blank=True)),  
+                ('created_at', models.DateTimeField(auto_now_add=True)), 
+                ('updated_at', models.DateTimeField(auto_now=True)), 
             ],
             options={
-                'ordering': ['-created_at'], #Sách mới nhất lên trước
+                'ordering': ['-created_at'], 
             },
         ),
         migrations.CreateModel(
-            name='Grade', #tạo bảng Grade(lớp học)
+            name='Grade', 
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)), #Tên không trùng
-                ('order', models.IntegerField(default=0)), #Thứ tự hiển thị
+                ('name', models.CharField(max_length=50, unique=True)), 
+                ('order', models.IntegerField(default=0)),
             ],
             options={
                 'ordering': ['order', 'name'], #Thứ tự sắp sếp
             },
         ),
         migrations.CreateModel(
-            name='Subject', #Tạo bảng Subject(môn học)
+            name='Subject', 
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100, unique=True)),
@@ -55,14 +55,14 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Comment', #Tạo bảng Comment(Bình luân người dùng)
+            name='Comment', 
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField()), #Nội dung bình luận
+                ('text', models.TextField()), 
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, 
-                                           related_name='comments', to='books.book')), #Mỗi comment:thuộc 1 sách, nếu sách xóa → comment xóa
+                                           related_name='comments', to='books.book')), 
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', 
                                            to=settings.AUTH_USER_MODEL)), # Comment thuộc về user
             ],
