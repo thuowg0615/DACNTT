@@ -13,7 +13,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Registration successful!')
+            messages.success(request, 'Đăng ký thành công!')
             return redirect('home')
     else:
         form = RegisterForm()
@@ -76,7 +76,7 @@ def add_rating(request, pk):
                 user=request.user,
                 defaults={'rating': int(rating_value)}
             )
-            messages.success(request, 'Rating added successfully!')
+            messages.success(request, 'Đánh giá đã được thêm thành công!')
         
         return redirect('book_detail', pk=pk)
 
@@ -90,7 +90,7 @@ def add_comment(request, pk):
         if text:
             word_count = len(text.split())
             if word_count > 200:
-                messages.error(request, f'Comment exceeds 200 word limit ({word_count} words). Please shorten your comment.')
+                messages.error(request, f'Bình luận vượt quá giới hạn 200 từ ({word_count} words). Vui lòng rút ngắn bình luận của bạn.')
                 return redirect('book_detail', pk=pk)
             
             Comment.objects.create(
@@ -98,6 +98,6 @@ def add_comment(request, pk):
                 user=request.user,
                 text=text
             )
-            messages.success(request, 'Comment added successfully!')
+            messages.success(request, 'Bình luận đã được thêm thành công!')
         
         return redirect('book_detail', pk=pk)

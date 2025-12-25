@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
-
 {% block title %}Đăng nhập - Bookstore{% endblock %}
-
 {% block content %}
+
 <div class="max-w-md mx-auto">
     <div class="card bg-base-100 shadow-xl">
         <div class="card-body">
             <h2 class="card-title text-2xl mb-4">Đăng nhập</h2>
             <form method="post">
-                {% csrf_token %}
-                {% if form.errors %}
+                {% csrf_token %} <!--Bảo mật Django, Chống tấn công CSRF-->
+                {% if form.errors %} <!--lỗi khi đăng nhập-->
                 <div class="alert alert-error mb-4">
                     <span>Tên người dùng hoặc mật khẩu không hợp lệ</span>
                 </div>
@@ -31,7 +30,7 @@
                 
                 <button type="submit" class="btn btn-primary w-full">Đăng nhập</button>
             </form>
-            <div class="divider">OR</div>
+            <div class="divider">OR</div> <!--điều hướng đến đăng kí-->
             <a href="{% url 'register' %}" class="btn btn-ghost w-full">Bạn chưa có tài khoản? Đăng kí</a>
         </div>
     </div>

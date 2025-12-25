@@ -1,9 +1,9 @@
 {% extends 'base.html' %} 
 {% block title %}Trang chủ - ADCBook{% endblock %} 
 {% block content %}
-<!-- <h1 class="text-4xl font-bold mb-8">📚 ADCbook</h1> -->
 
 <div class="mb-6">
+    <!--Tìm kiếm theo tên sách-->
     <form method="get" class="flex flex-wrap gap-4">
         <div class="form-control w-full max-w-xs">
             <label class="label">
@@ -12,18 +12,20 @@
             <input type="text" name="search" placeholder="Tìm kiếm sách..." class="input input-bordered" value="{{ search_query|default:'' }}">
         </div>
 
+        <!-- theo khối -->
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <span class="label-text">Khối</span>
             </label>
-            <select name="grade" class="select select-bordered">
+            <select name="grade" class="select select-bordered"> <!-- lọc theo khối -->
                 <option value="">Tất cả khối</option>
-                {% for grade in grades %}
+                {% for grade in grades %} <!--grades là danh sách khối học từ database-->
                 <option value="{{ grade.id }}" {% if selected_grade == grade.id|stringformat:"s" %}selected{% endif %}>{{ grade.name }}</option>
                 {% endfor %}
             </select>
         </div>
 
+        <!-- Theo môn -->
         <div class="form-control w-full max-w-xs">
             <label class="label">
                 <span class="label-text">Môn</span>
@@ -31,7 +33,8 @@
             <select name="subject" class="select select-bordered">
                 <option value="">Tất cả môn</option>
                 {% for subject in subjects %}
-                <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>{{ subject.name }}</option>
+                <option value="{{ subject.id }}" 
+                {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>{{ subject.name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -40,16 +43,17 @@
             <button type="submit" class="btn btn-primary">Lọc</button>
         </div>
 
-        {% if search_query or selected_grade or selected_subject %}
+        {% if search_query or selected_grade or selected_subject %} <!--hiện khi đang lọc-->
         <div class="form-control self-end">
-            <a href="{% url 'home' %}" class="btn btn-ghost">Xóa</a>
+            <a href="{% url 'home' %}" class="btn btn-ghost">Xóa</a> <!--Quay về trang chủ-->
         </div>
         {% endif %}
     </form>
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    {% for book in books %}
+    {% for book in books %} <!--books là truy vấn từ view-->
+    <!-- Hiện thị ảnh sách -->
     <div class="card bg-base-100 shadow-xl">
         {% if book.image %}
         <figure><img src="{{ book.image.url }}" alt="{{ book.name }}" class="h-64 w-full object-cover"></figure>
@@ -60,20 +64,24 @@
         {% endif %}
         <div class="card-body">
             <h2 class="card-title">{{ book.name }}</h2>
-            <p class="text-sm">{{ book.subject.name }} - {{ book.grade.name }}</p>
+            <p class="text-sm">{{ book.subject.name }} - {{ book.grade.name }}</p> <!--Khóa ngoại-->
             <div class="flex items-center gap-2">
                 <div class="rating rating-sm">
-                    {% with avg=book.average_rating %} {% for i in "12345" %}
+                    {% with avg=book.average_rating %}  <!--average_rating là property trong model-->
+                    {% for i in "12345" %} <!--vẽ 5 sao-->
+                    <!-- Tô sao theo điểm trung bình -->
                     <input type="radio" class="mask mask-star-2 bg-orange-400" disabled {% if forloop.counter <= avg %}checked{% endif %}> {% endfor %} {% endwith %}
                 </div>
                 <span class="text-sm">({{ book.ratings.count }})</span>
             </div>
             <div class="card-actions justify-between items-center mt-4">
-                <span class="text-xl font-bold text-primary">{{ book.price }}.VNĐ</span>
+                <span class="text-xl font-bold text-primary">{{ book.price }} VNĐ</span> <!--Gia sách-->
                 <div class="flex gap-2">
-                    <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-ghost">View</a> {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'add_to_cart' book.pk %}" hx-post="{% url 'add_to_cart' book.pk %}" hx-swap="none">
-                        {% csrf_token %}
+                    <!-- nút điều hướng sang book_detail.html -->
+                    <a href="{% url 'book_detail' book.pk %}" class="btn btn-sm btn-ghost">View</a> 
+                    {% if user.is_authenticated %}  <!--Thêm vào giỏ hàng chỉ khi đã đăng nhập-->
+                    <form method="post" action="{% url 'add_to_cart' book.pk %}" hx-post="{% url 'add_to_cart' book.pk %}" hx-swap="none"> <!--Gửi POST về backend-->
+                        {% csrf_token %} <!--Bảo mật Django, Chống tấn công CSRF-->
                         <button type="submit" class="btn btn-sm btn-primary">Thêm vào giỏ hàng</button>
                     </form>
                     {% endif %}
@@ -81,7 +89,7 @@
             </div>
         </div>
     </div>
-    {% empty %}
+    {% empty %} <!--Truy vấn books rỗng-->
     <div class="col-span-full text-center py-12">
         <p class="text-xl text-gray-500">Không tìm thấy sách nào.</p>
     </div>

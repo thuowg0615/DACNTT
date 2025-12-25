@@ -2,7 +2,7 @@
 {% extends 'base.html' %} <!--kế thừa-->
 {% block title %}Thanh toán - Bookstore{% endblock %} <!--ghi đè-->
 {% block content %} <!--Bắt đầu nội dung trang-->
-<h1 class="text-4xl font-bold mb-8">💳 Checkout</h1> <!--Tiêu đề-->
+<h1 class="text-4xl font-bold mb-8">💳 Thanh toán</h1> <!--Tiêu đề-->
 
 <!-- form thanh toán -->
 <form method="post" action="{% url 'process_payment' %}">
@@ -39,7 +39,7 @@
                                 <h3 class="text-lg font-bold">{{ item.book.name }}</h3>
                                 <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
                                 <!-- Tính tiền -->
-                                <p class="text-sm mt-2">Số lượng: {{ item.quantity }} × {{ item.book.price }} .VNĐ = <span class="font-bold">{{ item.subtotal }} .VNĐ</span></p>
+                                <p class="text-sm mt-2">Số lượng: {{ item.quantity }} × {{ item.book.price }} VNĐ = <span class="font-bold">{{ item.subtotal }} VNĐ</span></p>
                             </div>
                         </div>
                     </label>
