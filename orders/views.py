@@ -14,7 +14,7 @@ def checkout(request):
         items = cart.items.all()
         
         if not items:
-            messages.error(request, 'Your cart is empty!')
+            messages.error(request, 'Giỏ hàng của bạn trống!')
             return redirect('cart')
         
         context = {
@@ -23,7 +23,7 @@ def checkout(request):
         }
         return render(request, 'orders/checkout.html', context)
     except Cart.DoesNotExist:
-        messages.error(request, 'Your cart is empty!')
+        messages.error(request, 'Giỏ hàng của bạn trống!')
         return redirect('cart')
 
 

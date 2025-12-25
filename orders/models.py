@@ -6,9 +6,9 @@ from django.core.validators import MinValueValidator
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('cancelled', 'Cancelled'),
+        ('pending', 'Chờ thanh toán'),
+        ('paid', 'Đã thanh toán'),
+        ('cancelled', 'Đã hủy   '),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')

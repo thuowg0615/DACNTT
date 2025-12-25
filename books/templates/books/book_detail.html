@@ -1,15 +1,14 @@
 
-{% extends 'base.html' %}  <!--Kế thừa-->
-{% block title %}{{ book.name }}- ADCbook{% endblock %} <!--VD:Toán lớp 5 - ADCbook-->
-{% block content %} <!--Bắt đầu nội dung-->
+{% extends 'base.html' %}  
+{% block title %}{{ book.name }}- ADCbook{% endblock %} 
+{% block content %} 
 <div class="mb-4">
     <a href="{% url 'home' %}" class="btn btn-ghost btn-sm">← Quay lại trang chủ</a>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8"> <!--Desktop: 2 cột; Mobile: 1 cột-->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8"> 
     <div>
         {% if book.image %}
-        <!--book.image.url lấy từ model Book-->
         <img src="{{ book.image.url }}" alt="{{ book.name }}" class="w-full rounded-lg shadow-xl"> {% else %} 
         <div class="bg-base-200 w-full h-96 flex items-center justify-center rounded-lg">
             <span class="text-9xl">📖</span>
@@ -18,12 +17,10 @@
     </div>
 
     <div>
-        <h1 class="text-4xl font-bold mb-4">{{ book.name }}</h1> <!--Tên sách-->
-        <!--Khóa ngoại-->
-        <p class="text-lg mb-2">{{ book.subject.name }} - {{ book.grade.name }}</p> <!--Môn học - Khối-->
+        <h1 class="text-4xl font-bold mb-4">{{ book.name }}</h1> 
+        <p class="text-lg mb-2">{{ book.subject.name }} - {{ book.grade.name }}</p> 
 
         <div class="flex items-center gap-2 mb-4">
-            <!--Hiển thị sao đánh giá-->
             <div class="rating rating-md">
                 {% with avg=book.average_rating %} {% for i in "12345" %} 
                 <input type="radio" class="mask mask-star-2 bg-orange-400" 
@@ -31,10 +28,10 @@
             </div>
             <span class="text-lg">({{ book.ratings.count }} ratings)</span>
         </div>
-        <!-- Hiển thị giá sách -->
+        
         <p class="text-3xl font-bold text-primary mb-6">{{ book.price }} VNĐ</p>
 
-        <!-- Mô tả sách -->
+        
         {% if book.description %} <!--tránh hiển thị nếu trống-->
         <div class="mb-6">
             <h3 class="text-xl font-bold mb-2">Mô tả</h3>
@@ -42,29 +39,28 @@
         </div>
 
         {% endif %} 
-        <!-- Thêm vào giỏ hàng -->
+        
         {% if user.is_authenticated %} <!--Chỉ cho user đăng nhập mới được mua-->
-        <form method="post" action="{% url 'add_to_cart' book.pk %}" class="flex gap-4 mb-6"> <!--gửi dữ liệu tới be; book.pk=ID sách-->
-            {% csrf_token %} <!--Bảo mật Django, Chống tấn công CSRF-->
-            <input type="number" name="quantity" value="1" min="1" class="input input-bordered w-24"> <!--Người dùng chọn số lượng-->
+        <form method="post" action="{% url 'add_to_cart' book.pk %}" class="flex gap-4 mb-6"> 
+            {% csrf_token %} 
+            <input type="number" name="quantity" value="1" min="1" class="input input-bordered w-24"> 
             <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
         </form>
         {% else %}
-        <!--khi chưa đăng nhập-->
         <p class="text-gray-500 mb-6">Làm ơn <a href="{% url 'login' %}" class="link">đăng nhập</a> để thêm sản phẩm vào giỏ hàng</p>
         {% endif %}
     </div>
 </div>
 
 {% if user.is_authenticated %} <!--Kiểm tra đã đăng nhập hay chưa, nếu chưa thì trả về False-->
-<div class="divider my-8"></div> <!--Chỉ user đăng nhập mới thấy-->
+<div class="divider my-8"></div> 
 
 <div class="mb-8">
     <h2 class="text-2xl font-bold mb-4">Đánh giá của bạn</h2>
     <form method="post" action="{% url 'add_rating' book.pk %}" class="flex gap-4 items-center">
-        {% csrf_token %} <!--Bảo mật Django, Chống tấn công CSRF-->
+        {% csrf_token %} 
         <div class="rating rating-lg">
-            {% for i in "12345" %} <!--dùng để: Lặp 5 lần để vẽ 5 sao-->
+            {% for i in "12345" %} 
             <input type="radio" name="rating" value="{{ forloop.counter }}" class="mask mask-star-2 bg-orange-400" 
             {% if user_rating and user_rating.rating == forloop.counter %}checked{% endif %}> {% endfor %}
         </div>
@@ -75,28 +71,28 @@
 <div class="mb-8">
     <h2 class="text-2xl font-bold mb-4">Thêm bình luận</h2>
     <form method="post" action="{% url 'add_comment' book.pk %}">
-        {% csrf_token %} <!--Bảo mật Django, Chống tấn công CSRF-->
+        {% csrf_token %} 
         <textarea name="text" class="textarea textarea-bordered w-full" placeholder="Hãy viết bình luận của bạn..." rows="4" required></textarea>
         <button type="submit" class="btn btn-primary mt-2">Đăng bình luận</button>
     </form>
 </div>
 {% endif %}
 
-<!-- Hiển thị bình luận -->
+
 <div>
     <h2 class="text-2xl font-bold mb-4">Bình luận ({{ comments.count }})</h2>
-    {% for comment in comments %} <!--comments được truyền từ view-->
+    {% for comment in comments %} 
     <div class="card bg-base-100 shadow-md mb-4">
         <div class="card-body">
             <div class="flex justify-between items-start">
                 <div>
-                    <h3 class="font-bold">{{ comment.user.username }}</h3> <!--Tên người bình luận-->
-                    <p class="text-sm text-gray-500">{{ comment.created_at|date:"F d, Y" }}</p> <!--Ngày-->
+                    <h3 class="font-bold">{{ comment.user.username }}</h3> 
+                    <p class="text-sm text-gray-500">{{ comment.created_at|date:"F d, Y" }}</p> 
                 </div>
-                {% if comment.user == user %} <!--Đánh dấu comment của chính mình-->
+                {% if comment.user == user %} 
                 <span class="badge badge-primary">Bình luận của bạn</span> {% endif %}
             </div>
-            <p class="mt-2 break-all">{{ comment.text }}</p> <!--Nội dung bình luận-->
+            <p class="mt-2 break-all">{{ comment.text }}</p> 
         </div>
     </div>
     {% empty %}

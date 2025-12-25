@@ -1,28 +1,25 @@
 
-{% extends 'base.html' %} <!--kế thừa-->
-{% block title %}Thanh toán - Bookstore{% endblock %} <!--ghi đè-->
-{% block content %} <!--Bắt đầu nội dung trang-->
-<h1 class="text-4xl font-bold mb-8">💳 Thanh toán</h1> <!--Tiêu đề-->
+{% extends 'base.html' %} 
+{% block title %}Thanh toán - Bookstore{% endblock %} 
+{% block content %} 
+<h1 class="text-4xl font-bold mb-8">💳 Thanh toán</h1> 
 
-<!-- form thanh toán -->
+
 <form method="post" action="{% url 'process_payment' %}">
-    {% csrf_token %} <!--Django bảo mật POST request-->
+    {% csrf_token %} 
 
-    <!-- chia giao diện(2 cột) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
-            <!-- Thông báo -->
             <div class="alert alert-info mb-6">
-                <span>Thanh toán thành công</span>
+                <span>Tiến hành thanh toán </span>
             </div>
 
             <h2 class="text-2xl font-bold mb-4">Chọn mặt hàng để mua</h2>
 
-            {% for item in items %} <!--items được truyền từ backend-->
+            {% for item in items %} 
             <div class="card bg-base-100 shadow-md mb-4">
                 <div class="card-body">
                     <label class="flex gap-4 cursor-pointer">
-                        <!-- chọn sản phẩm -->
                         <input type="checkbox" name="selected_items" value="{{ item.id }}" class="checkbox checkbox-primary" checked>
                         
                         <div class="flex gap-4 flex-1">
@@ -35,11 +32,9 @@
                             {% endif %}
                             
                             <div class="flex-1">
-                                <!-- thông tin sách -->
                                 <h3 class="text-lg font-bold">{{ item.book.name }}</h3>
                                 <p class="text-sm text-gray-500">{{ item.book.subject.name }} - {{ item.book.grade.name }}</p>
-                                <!-- Tính tiền -->
-                                <p class="text-sm mt-2">Số lượng: {{ item.quantity }} × {{ item.book.price }} VNĐ = <span class="font-bold">{{ item.subtotal }} VNĐ</span></p>
+                                <p class="text-sm mt-2">Tổng: {{ item.quantity }} × {{ item.book.price }} VNĐ = <span class="font-bold">{{ item.subtotal }} VNĐ</span></p>
                             </div>
                         </div>
                     </label>
@@ -47,7 +42,6 @@
             </div>
             {% endfor %}
 
-                <!-- thanh toán -->
             <div class="card bg-base-100 shadow-md">
                 <div class="card-body">
                     <h2 class="text-xl font-bold mb-4">Thông tin thanh toán</h2>
@@ -66,7 +60,7 @@
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="label-text">CVV</span>
+                                <span class="label-text">Số thẻ (lấy 3 số cuối)</span>
                             </label>
                             <input type="text" placeholder="123" class="input input-bordered" disabled>
                         </div>
@@ -85,12 +79,11 @@
                         <span>{{ items.count }}</span>
                     </div>
                     <div class="flex justify-between text-xl font-bold">
-                        <!--tổng tiền-->
-                        <span>Total:</span>
-                        <span class="text-primary">{{ cart.total_price }} .VNĐ</span>
+                        <span>Tổng tiền:</span>
+                        <span class="text-primary">{{ cart.total_price }} VNĐ</span>
                     </div>
                     <div class="card-actions justify-end mt-4">
-                        <button type="submit" class="btn btn-primary w-full">hoàn tất thanh toán</button>
+                        <button type="submit" class="btn btn-primary w-full">Hoàn tất thanh toán</button>
                     </div>
                     <a href="{% url 'cart' %}" class="btn btn-ghost w-full mt-2">Quay lại giỏ hàng</a>
                 </div>
